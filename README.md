@@ -1,6 +1,54 @@
-# heimdall-api
+# Heimdall Gateway
 
+Gateway que atua como o **guardião das APIs**, controlando quem pode acessar cada aplicação, validando credenciais e protegendo os serviços internos — assim como **Heimdall** vigia e protege os reinos conectados a **Yggdrasil**.
+
+---
+
+## Roadmap
+
+### MVP 1 – Painel e Autenticação
+- [ ] Autenticação para acesso ao painel
+- [ ] Listar aplicações conectadas
+- [ ] Visualizar dados das aplicações
+- [ ] CRUD básico de aplicações
+- [ ] Exibir URL da API
+- [ ] Painel renderizado no backend com **Qute**
+
+---
+
+### MVP 2 – Gerenciamento de Ambiente
+- [ ] Verificar manualmente o status da AWS
+- [ ] Reiniciar manualmente instâncias AWS
+- [ ] Verificação automática de status
+- [ ] Reinício automático em caso de falha
+
+---
+
+### MVP 3 – Logs
+- [ ] Coleta de logs da aplicação
+- [ ] Persistência dos logs
+- [ ] Visualização dos logs no painel
+- [ ] Acompanhamento em tempo real
+
+---
+
+### MVP 4 – Build e Atualização
+- [ ] Acesso ao repositório de imagens
+- [ ] Atualização de versão da aplicação
+- [ ] Substituição da versão em execução
+
+---
+
+## Infraestrutura
+- [ ] Banco de dados **Oracle**
+- [ ] **Gradle** como gerenciador de dependências
+- [ ] **Quarkus** como framework backend
+
+> As tecnologias foram escolhidas com foco em **aprendizado e exploração**, não necessariamente como a solução ideal para o problema.
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
+
+--- 
+
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
