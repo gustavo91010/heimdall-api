@@ -1,4 +1,4 @@
-package com.ajudaqui.config;
+package com.ajudaqui.exception;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -9,8 +9,10 @@ public class GlobalExceptionHandler implements ExceptionMapper<Throwable> {
 
   @Override
   public Response toResponse(Throwable exception) {
-    System.out.println("causa: "+exception.getCause());
-    System.out.println("e aqui: "+exception.getMessage());
+
+    ErrorResponse error;
+    System.out.println("causa: " + exception.getCause());
+    System.out.println("e aqui: " + exception.getMessage());
     // UNIQUE / ORA-00001
     if (exception.getCause() instanceof java.sql.SQLIntegrityConstraintViolationException) {
       return Response.status(Response.Status.CONFLICT)
@@ -18,9 +20,11 @@ public class GlobalExceptionHandler implements ExceptionMapper<Throwable> {
           .build();
     }
 
-    return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-        .entity("Erro interno")
-        .build();
+    error = new ErrorResponse(exception);
+    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+    // return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    // .entity("Erro interno")
+    // .build();
   }
 
 }

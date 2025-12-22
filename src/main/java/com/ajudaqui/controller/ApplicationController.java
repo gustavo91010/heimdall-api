@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/applications")
+@Path("/v1/applications")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ApplicationController {
@@ -25,8 +25,8 @@ public class ApplicationController {
   }
 
   @GET
-  public List<ApplicationResponseDTO> listAll() {
-    return service.listAll("lalala").stream().map(app -> new ApplicationResponseDTO(app)).toList();
+  public List<ApplicationResponseDTO> listAll(@HeaderParam("Authorization") String security) {
+    return service.listAll(security).stream().map(app -> new ApplicationResponseDTO(app)).toList();
   }
 
   @GET

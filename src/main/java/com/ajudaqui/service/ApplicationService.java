@@ -9,6 +9,7 @@ import com.ajudaqui.entity.Application;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import io.quarkus.security.UnauthorizedException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -27,7 +28,7 @@ public class ApplicationService {
     var app = new Application();
     app.name = dto.name();
     app.url = dto.url();
-    app.apiKey= UUID.randomUUID().toString();
+    app.apiKey = UUID.randomUUID().toString();
     app.active = true;
 
     app.persist();
@@ -69,8 +70,14 @@ public class ApplicationService {
     app.persist();
   }
 
-  public List<Application> listAll(String accessToken) {
+  public List<Application> listAll(String security) {
+    if (!isAuthorized(security))
+      throw new UnauthorizedException("Não autorizado");
 
     return Application.<Application>findAll().list();
+  }
+
+  private boolean isAuthorized(String security) {
+    return this.security.replace("\"", "").equals(security);
   }
 }
