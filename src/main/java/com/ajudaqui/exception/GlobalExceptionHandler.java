@@ -1,5 +1,8 @@
 package com.ajudaqui.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -20,7 +23,8 @@ public class GlobalExceptionHandler implements ExceptionMapper<Throwable> {
           .build();
     }
 
-    error = new ErrorResponse(exception);
+    Map<String, String> lalala = new HashMap<>();
+    error = new ErrorResponse(exception.getCause().toString(), lalala);
     return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
     // return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
     // .entity("Erro interno")
