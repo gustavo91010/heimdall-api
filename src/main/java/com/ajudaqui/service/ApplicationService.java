@@ -1,14 +1,17 @@
 package com.ajudaqui.service;
 
+import static com.ajudaqui.utils.EQuerys.SELECT_BY_API_KEY;
+
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.*;
 import com.ajudaqui.dto.ApplicationDTO;
-import com.ajudaqui.dto.ApplicationResponseDTO;
 import com.ajudaqui.entity.Application;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import io.quarkus.hibernate.orm.panache.Panache;
 import io.quarkus.security.UnauthorizedException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -46,11 +49,19 @@ public class ApplicationService {
   }
 
   public Application findByApiKey(String apiKey) {
-    return Application.<Application>find("apiKey", apiKey)
-        .firstResultOptional()
-        .orElseThrow(() -> new WebApplicationException(
-            "API Key não cadastrada",
-            Response.Status.NOT_FOUND));
+    try {
+      Query q = Panache.getEntityManager()
+          .createNativeQuery(
+              SELECT_BY_API_KEY.getSql(),
+              Application.class);
+      q.setParameter("apiKey", apiKey);
+
+      return (Application) q.getSingleResult();
+    } catch (NoResultException e) {
+      throw new WebApplicationException(
+          "API Key não cadastrada",
+          Response.Status.NOT_FOUND);
+    }
   }
 
   @Transactional
