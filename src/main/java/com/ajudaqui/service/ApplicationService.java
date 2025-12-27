@@ -67,6 +67,10 @@ public class ApplicationService {
   @Transactional
   public void deactivate(String apiKey) {
     var app = findByApiKey(apiKey);
+    if (!app.active)
+      throw new WebApplicationException(
+          "Aplicaçõa já esta desativada",
+          Response.Status.CONFLICT);
     app.active = false;
     app.persist();
   }

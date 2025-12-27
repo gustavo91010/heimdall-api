@@ -42,4 +42,5 @@ public class Application extends PanacheEntityBase {
   @UpdateTimestamp
   @Column(name = "UPDATEDAT")
   public LocalDateTime updatedAt;
+
 }
