@@ -48,6 +48,21 @@ public class ApplicationService {
 
   }
 
+  public Application findByName(String service) {
+    try {
+      Query q = Panache.getEntityManager()
+          .createNativeQuery(
+              SELECT_BY_API_KEY.getSql(),
+              Application.class);
+      q.setParameter("name", service);
+
+      return (Application) q.getSingleResult();
+    } catch (NoResultException e) {
+      throw new WebApplicationException(
+          "API Key não cadastrada",
+          Response.Status.NOT_FOUND);
+    }
+  }
   public Application findByApiKey(String apiKey) {
     try {
       Query q = Panache.getEntityManager()
