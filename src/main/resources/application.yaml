@@ -1,3 +1,5 @@
 spring:
   application:
     name: heimdall-api
+  main:
+    web-application-type: reactive
