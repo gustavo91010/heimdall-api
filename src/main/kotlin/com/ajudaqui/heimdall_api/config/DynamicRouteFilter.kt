@@ -27,14 +27,8 @@ class DynamicRouteFilter(private val resolver: ServiceUriResolver) : GlobalFilte
 
     var currentExchange = exchange
 
-    // Se o header de Auth estiver presente, nós criamos um novo Exchange com o header na requisição
-    // mutada.
     if (authHeader != null) {
-
-      // CONSTRÓI UMA NOVA REQUISIÇÃO (MUTÁVEL) COM O HEADER
       val mutatedRequest = exchange.request.mutate().header("Authorization", authHeader).build()
-
-      // CRIA UM NOVO EXCHANGE COM A REQUISIÇÃO MUTADA
       currentExchange = exchange.mutate().request(mutatedRequest).build()
     }
 
