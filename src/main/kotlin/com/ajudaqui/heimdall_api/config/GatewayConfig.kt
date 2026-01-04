@@ -9,15 +9,14 @@ import org.springframework.context.annotation.Configuration
 class GatewayConfig {
 
   @Bean
-  fun customRouteLocator(builder: RouteLocatorBuilder): RouteLocator {
-    return builder.routes()
-            .route("payment_route") {
-              it.path("/py/**")
-                      .filters { f -> f.stripPrefix(1).addRequestHeader("X-Test", "valor") }
-                      .uri("http://3.229.225.73:8183")
-            }
-            .build()
-  }
+  fun customRouteLocator(builder: RouteLocatorBuilder): RouteLocator =
+          builder.routes()
+                  .route("dynamic_route") {
+                    it.path("/{service}/**")
+                            .uri("http://placeholder") // dummy, será sobrescrito pelo filtro
+                            // .uri("forward:/") // dummy, será sobrescrito pelo filtro
+                  }
+                  .build()
 }
 
 // curl -X GET http://localhost:8080/py/users/permission \
